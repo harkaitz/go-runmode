@@ -2,6 +2,7 @@ package runmode
 
 import (
 	"os"
+	"strings"
 )
 
 // ReleaseMode is a flag to determine if the application is running in
@@ -11,8 +12,21 @@ import (
 // A program can set ReleaseMode to true if it is running in release mode.
 var ReleaseMode bool = false
 
+// Hostname holds the machine name (without domain).
+var Hostname string = ""
+
 func init() {
+	var dot int
+	var err error
+
 	ReleaseMode = (os.Getenv("RELEASE_MODE") != "")
+
+	Hostname, err = os.Hostname()
+	if err != nil { panic(err) }
+	dot = strings.Index(Hostname, ".")
+	if dot != -1 {
+		Hostname = Hostname[:dot]
+	}
 }
 
 // IsReleaseMode returns true if the application is running in release mode.
