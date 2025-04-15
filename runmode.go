@@ -38,3 +38,11 @@ func IsReleaseMode() bool {
 func IsDebugMode() bool {
 	return !ReleaseMode
 }
+
+// DebugRelease returns first argument on debug second in release.
+func DebugRelease(debug string, release string) string {
+	switch IsDebugMode() {
+	case true: return debug
+	default:   return release
+	}
+}
